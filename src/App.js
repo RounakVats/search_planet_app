@@ -1,24 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import FilterPanel from './Components/FilterPanel/FilterPanel';
+import {Divider} from 'primereact/divider';
+import SearchBar from './Components/SearchBar/SearchBar';
+import PlanetDetails from './Components/PlanetDetails/PlanetDetails';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <SearchBar/>
+      <div className='content'>
+        <div className="card">
+          <div className="grid">
+            <div className="col-2 align-items-center justify-content-center" style={{padding:"0vh 3vw"}}>
+              <FilterPanel/>
+            </div>
+            <div className="col-1">
+              <Divider layout="vertical"/>
+            </div>
+            <div className="col-9 flex align-items-center justify-content-center">
+              <PlanetDetails/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
