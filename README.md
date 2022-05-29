@@ -53,4 +53,4 @@ This section will display the planet details like their name, color and shape in
 If there in no data or if the filter applied/ search input dosn't matches any planet in the ist then it will show "No Data Available".
 
 ### `Share Functionality`
-We can share the filtered search also. If one user shares the search result with another user, the exact smae filters will get applied for another user and serach text will also get populated to fetch the filtered result.
+We can share the filtered search also. If one user shares the search result with another user, the exact same filters will get applied for another user and serach text will also get populated to fetch the filtered result.
