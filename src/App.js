@@ -1,27 +1,50 @@
 import './App.css';
 import FilterPanel from './Components/FilterPanel/FilterPanel';
-import {Divider} from 'primereact/divider';
 import SearchBar from './Components/SearchBar/SearchBar';
-import PlanetDetails from './Components/PlanetDetails/PlanetDetails';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { ACTIONS } from './Reducer/actions';
+import { useDispatch } from 'react-redux';
 
 function App() {
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    getSize();
+    getShape();
+    getColor();
+  });
+
+  const setActive = (data) =>{
+    return data.map((d)=>{
+      d.active = false;
+      return d;
+    })
+  }
+
+  const getSize = async () =>{
+    let {data} =  await axios.get(`http://localhost:3004/sizes`);
+    data = setActive(data)
+    dispatch({type:ACTIONS.SIZE, data:data});
+  }
+
+  const getColor = async () =>{
+    let {data} =  await axios.get(`http://localhost:3004/colors`);
+    data = setActive(data)
+    dispatch({type:ACTIONS.COLOR, data:data});
+  }
+
+  const getShape = async () =>{
+      let {data} =  await axios.get(`http://localhost:3004/shapes`);
+      data = setActive(data)
+      dispatch({type:ACTIONS.SHAPE, data:data});
+  }
+  
   return (
     <>
       <SearchBar/>
       <div className='content'>
-        <div className="card">
-          <div className="grid">
-            <div className="col-2 align-items-center justify-content-center" style={{padding:"0vh 3vw"}}>
-              <FilterPanel/>
-            </div>
-            <div className="col-1">
-              <Divider layout="vertical"/>
-            </div>
-            <div className="col-9 flex align-items-center justify-content-center">
-              <PlanetDetails/>
-            </div>
-          </div>
-        </div>
+        <FilterPanel/>
       </div>
     </>
   );

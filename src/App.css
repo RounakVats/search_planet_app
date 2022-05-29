@@ -1,8 +1,8 @@
 .content{
-    padding:7% 1% 1% 1%;
+    padding:8% 1% 1% 1%;
 }
 @media (max-width:700px){
     .content{
-        padding: 17% 3% 3%;
+        padding: 20% 3% 3%;
     }
 }
