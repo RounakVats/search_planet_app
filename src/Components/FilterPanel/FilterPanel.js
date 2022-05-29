@@ -3,8 +3,12 @@ import {Checkbox} from 'primereact/checkbox';
 import { useDispatch, useSelector } from 'react-redux';
 import { ACTIONS } from '../../Reducer/actions';
 import { Divider } from 'primereact/divider';
+import {InputText} from 'primereact/inputtext';
+import {Button} from 'primereact/button';
 import PlanetDetails from '../PlanetDetails/PlanetDetails';
-import {fetchPlanets, fetchPlanetsWithFilter} from '../../Common/common';
+import './FilterPanel.css'
+import { useNavigate  } from "react-router-dom";
+import {fetchPlanets, fetchPlanetsWithFilter, returnQuery} from '../../Common/common';
 
 export default function FilterPanel() {
     const color = useSelector(state=> state && state.color ? state.color : null);
@@ -12,7 +16,8 @@ export default function FilterPanel() {
     const shape = useSelector(state=> state && state.shape ? state.shape : null);
     const dispatch = useDispatch();
     const [planets, setplanets] = useState([]);
-    const [stateCheck, setstateCheck] = useState(false);
+    const [searchValue, setsearchValue] = useState("");
+    // const navigate = useNavigate();
 
     useEffect(()=>{
         fetchData();
@@ -28,7 +33,10 @@ export default function FilterPanel() {
         })
     }
     const fetchDataWithFilter = () =>{
-        fetchPlanetsWithFilter(color,shape,size)
+
+        const append = returnQuery(searchValue,color,shape,size)
+
+        fetchPlanetsWithFilter(append)
         .then((res)=>{
             setplanets(res.data);
         })
@@ -36,22 +44,34 @@ export default function FilterPanel() {
             console.log("Some error");
         })
     }
+
+    const handleChange = (e) => {
+        console.log(e)
+        setsearchValue(e.target.value);
+    }
+
+    const handleSubmit = () => {
+        fetchDataWithFilter();
+    }
     
     const onColorChange = (e) => {
         color[e.value].active = e.checked;
         dispatch({type:ACTIONS.COLOR, data:color});
         fetchDataWithFilter();
     }
+
     const onShapeChange = (e) => {
         shape[e.value].active = e.checked;
         dispatch({type:ACTIONS.SHAPE, data:shape});
         fetchDataWithFilter();
     }
+
     const onSizeChange = (e) => {
         size[e.value].active = e.checked;
         dispatch({type:ACTIONS.SIZE, data:size});
         fetchDataWithFilter();
     }
+
     const returnFilterData = (filter, filterName, onchangeMethod) =>{
         return(
             filter && Object.values(filter).map((fil, index)=>{
@@ -67,9 +87,17 @@ export default function FilterPanel() {
 
     return (
         <div>
-            <div className="card">
+            <div className='searchBar'>
+                <div className="p-inputgroup">
+                    <InputText placeholder="Keyword" value={searchValue} 
+                        onChange={handleChange}  onKeyPress={(e)=> e.key === 'Enter' && handleSubmit()}
+                    />
+                    <Button icon="pi pi-search" className="p-button-info" onClick={handleSubmit}/>
+                </div>
+            </div>
+            <div className="card content">
                 <div className="grid">
-                    <div className="col-2 align-items-center justify-content-center" style={{padding:"0vh 3vw"}}>
+                    <div className="col-2 align-items-center justify-content-center filters" style={{padding:"0vh 3vw"}}>
                         <div className="p-fluid">
                             <h4>Color</h4>
                             {returnFilterData(color, "color", onColorChange)}

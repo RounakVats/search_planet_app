@@ -12,3 +12,11 @@
     
     }
 }
+.content{
+    padding:8% 1% 1% 1%;
+}
+@media (max-width:700px){
+    .content{
+        padding: 20% 3% 3%;
+    }
+}

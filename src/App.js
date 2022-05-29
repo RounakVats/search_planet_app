@@ -1,10 +1,14 @@
 import './App.css';
 import FilterPanel from './Components/FilterPanel/FilterPanel';
-import SearchBar from './Components/SearchBar/SearchBar';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { ACTIONS } from './Reducer/actions';
 import { useDispatch } from 'react-redux';
+import "primereact/resources/primereact.min.css";  
+import 'primeicons/primeicons.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/primereact.css';
+import 'primeflex/primeflex.css';
 
 function App() {
   const dispatch = useDispatch()
@@ -41,12 +45,9 @@ function App() {
   }
   
   return (
-    <>
-      <SearchBar/>
-      <div className='content'>
-        <FilterPanel/>
-      </div>
-    </>
+    <div>
+      <FilterPanel/>
+    </div>
   );
 }
 
