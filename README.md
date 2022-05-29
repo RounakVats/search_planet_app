@@ -1,70 +1,56 @@
-# Getting Started with Create React App
+# Search Planet App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project will display planets data and we can filter the planets based on color, shape and size. We can also search planets through the search bar at the top.
 
-## Available Scripts
+## Project Set Up
 
-In the project directory, you can run:
 
-### `npm start`
+### `Installation`
 
-Runs the app in the development mode.\
+For set up take a clone of master branch. Open the folder in any code editior.First of all we need to install the node in our machine then we need to install all the below listed dependencies with the command provided corresponding to them:
+  1. Node Modules - npm i
+  2. Axios - npm install axios
+  3. React router dom - npm install react-router-dom
+  4. Redux - npm install react-redux
+  5. Prime react framework -  npm install primereact primeicons primeflex
+
+### `Starting a local server`
+We are using JSON server for rest api.
+Steps for starting JSON server:
+  1. Create a folder where you want to run install the server and run it.
+  2. Install JSON server - npm install -g json-server.
+  3. Copy the assets/db.json file data and create a new file name.json in the new folder.
+  4. Now start the server - json-server --watch db.json --port 300x (pass any value between 1-9       because on 3000 we are running our ui so pass it some different port). 
+
+### `Starting App`
+
+Runs the following command:
+  npm start
+It will run the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## App Functionalities
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### `On first load`
+When the aplication first load it will display a search bar at the top, a filter panel on the left and a planet details section.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `Search Bar`
+With the Search bar we can search the planets by providing some text in the input field and click Enter key or click the search icon on the right side of the input field. It willfetch all the planets with the provided value and display them in the planet details section
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `Filter Panel`
+Filter Panel contains 3 types of filter.
+  1. Filter by Color
+  2. Filter by Size
+  3. Filter by Shape
 
-### `npm run eject`
+In the filter panel we have multiselect check boxes for each value. So we can select any number if values from the filter and it will fetch the planets based on the selected filters. If there is no planet matching with the provided filters it will show "No Data Available".
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### `Planet Details Section`
+This section will display the planet details like their name, color and shape in row format.
+If there in no data or if the filter applied/ search input dosn't matches any planet in the ist then it will show "No Data Available".
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### `Share Functionality`
+We can share the filtered search also. If one user shares the search result with another user, the exact smae filters will get applied for another user and serach text will also get populated to fetch the filtered result.
