@@ -45,6 +45,7 @@ export default function PlanetDetails({planets}) {
                     )
                 })
             }
+            <h4>{planets && planets.length>0?null:"No Data Available."}</h4>
         </div>
     )
 }

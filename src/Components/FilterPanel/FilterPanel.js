@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import {Checkbox} from 'primereact/checkbox';
 import { useDispatch, useSelector } from 'react-redux';
 import { ACTIONS } from '../../Reducer/actions';
 import { Divider } from 'primereact/divider';
@@ -9,6 +8,7 @@ import PlanetDetails from '../PlanetDetails/PlanetDetails';
 import './FilterPanel.css'
 import { useNavigate  } from "react-router-dom";
 import {fetchPlanets, fetchPlanetsWithFilter, returnQuery} from '../../Common/common';
+import Filter from './Filter';
 
 export default function FilterPanel() {
     const color = useSelector(state=> state && state.color ? state.color : null);
@@ -17,10 +17,22 @@ export default function FilterPanel() {
     const dispatch = useDispatch();
     const [planets, setplanets] = useState([]);
     const [searchValue, setsearchValue] = useState("");
-    // const navigate = useNavigate();
+    const [searchFilter, setsearchFilter] = useState("");
+    let navigate = useNavigate();
 
     useEffect(()=>{
-        fetchData();
+        let urlParams = window.location.search;
+        if(urlParams && urlParams!==""){ 
+            fetchDataWithFilterApiCall(urlParams);
+            urlParams = urlParams.substring(1);
+            const filters = urlParams.split("&");
+            if(filters[0].charAt(0)==="q"){
+                const search = filters[0].split("=")[1];
+                setsearchValue(search);
+            }
+        }else{
+            fetchData();
+        }
     },[]);
 
     const fetchData = () =>{
@@ -28,29 +40,34 @@ export default function FilterPanel() {
         .then((res)=>{
             setplanets(res.data)
         })
-        .catch(()=>{
-            console.log("Some error");
+        .catch((e)=>{
+            setplanets([]);
+            console.log("Some error occured.", e);
         })
     }
     const fetchDataWithFilter = () =>{
+        const append = returnQuery(searchFilter,color,shape,size)
+        navigate(`../${append}`, { replace: true });
+        fetchDataWithFilterApiCall(append);
+    }
 
-        const append = returnQuery(searchValue,color,shape,size)
-
+    const fetchDataWithFilterApiCall = (append) =>{
         fetchPlanetsWithFilter(append)
         .then((res)=>{
             setplanets(res.data);
         })
-        .catch(()=>{
-            console.log("Some error");
+        .catch((e)=>{
+            setplanets([]);
+            console.log("Some error occured.", e);
         })
     }
 
     const handleChange = (e) => {
-        console.log(e)
         setsearchValue(e.target.value);
     }
 
     const handleSubmit = () => {
+        setsearchFilter(searchValue);
         fetchDataWithFilter();
     }
     
@@ -72,19 +89,6 @@ export default function FilterPanel() {
         fetchDataWithFilter();
     }
 
-    const returnFilterData = (filter, filterName, onchangeMethod) =>{
-        return(
-            filter && Object.values(filter).map((fil, index)=>{
-                return(
-                    <div className="field-checkbox" key={index}>
-                        <Checkbox inputId={filterName+index} name={filterName} value={index} onChange={onchangeMethod} checked={fil.active}/>
-                        <label htmlFor={filterName+index}>{fil.name}</label>
-                    </div>
-                )
-            })
-        )
-    }
-
     return (
         <div>
             <div className='searchBar'>
@@ -99,16 +103,13 @@ export default function FilterPanel() {
                 <div className="grid">
                     <div className="col-2 align-items-center justify-content-center filters" style={{padding:"0vh 3vw"}}>
                         <div className="p-fluid">
-                            <h4>Color</h4>
-                            {returnFilterData(color, "color", onColorChange)}
+                            <Filter filter={color} filterName={"Color"} onchangeMethod={onColorChange} />
                         </div>
                         <div className="p-fluid">
-                            <h4>Size</h4>
-                            {returnFilterData(size, "size", onSizeChange)}
+                            <Filter filter={size} filterName={"Size"} onchangeMethod={onSizeChange} />
                         </div>
                         <div className="p-fluid">
-                            <h4>Shape</h4>
-                            {returnFilterData(shape, "shape", onShapeChange)}
+                            <Filter filter={shape} filterName={"Shape"} onchangeMethod={onShapeChange} />
                         </div>
                     </div>
                     <div className="col-1">
